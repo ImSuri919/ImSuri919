@@ -497,7 +497,7 @@ const dashboard = `<svg xmlns="http://www.w3.org/2000/svg" width="880" height="$
   ${sectionTitle(connectTitleY, "04", "CONNECT")}
   ${connectSvg}
 
-  <text x="440" y="${height - 28}" text-anchor="middle" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="10" letter-spacing="2" fill="#5f718f">AUTO-SYNCED FROM GITHUB API  /  LAST BUILD ${generated}</text>
+  <text x="440" y="${height - 28}" text-anchor="middle" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="10" letter-spacing="2" fill="#5f718f">${esc(clean(user.location || "OPEN TO COLLAB", 28).toUpperCase())}  /  AUTO-SYNCED FROM GITHUB API  /  LAST BUILD ${generated}</text>
 </svg>
 `;
 
