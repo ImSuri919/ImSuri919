@@ -105,8 +105,13 @@ const activity = describeActivity(events);
 const current = featured[0];
 const generated = new Date().toISOString().slice(0, 10);
 
+const raw = `https://raw.githubusercontent.com/${LOGIN}/${LOGIN}/main/assets`;
+const divider = `<div align="center"><img src="${raw}/neon-divider.svg" width="880" alt=""></div>`;
+
 const lines = [
   `<div align="center">`,
+  ``,
+  `<a href="https://github.com/${LOGIN}"><img src="${raw}/profile-banner.svg" width="880" alt="${user.name || user.login} animated banner"></a>`,
   ``,
   `# ${user.name || user.login}`,
   ``,
@@ -120,7 +125,7 @@ const lines = [
   ``,
   `</div>`,
   ``,
-  `---`,
+  divider,
   ``,
   `## Currently building`,
   ``,
@@ -170,7 +175,7 @@ const lines = [
   `- Agent skills playground: [dev-agent-skills](https://imsuri919.github.io/dev-agent-skills/)`,
   `- Ideas and bug reports: [open an issue](https://github.com/ImSuri919/dev-agent-skills/issues/new/choose)`,
   ``,
-  `---`,
+  divider,
   ``,
   `<div align="center">`,
   ``,
