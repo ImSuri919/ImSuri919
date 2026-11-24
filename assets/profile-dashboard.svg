@@ -1,0 +1,253 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="932" viewBox="0 0 880 932" role="img" aria-label="Auto generated GitHub profile dashboard">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#080d18"/>
+      <stop offset="55%" stop-color="#0b1224"/>
+      <stop offset="100%" stop-color="#070b14"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity=".13"/>
+      <stop offset="50%" stop-color="#ffffff" stop-opacity=".045"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity=".10"/>
+    </linearGradient>
+    <linearGradient id="stroke" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity=".55"/>
+      <stop offset="45%" stop-color="#ffffff" stop-opacity=".10"/>
+      <stop offset="100%" stop-color="#7dd3fc" stop-opacity=".40"/>
+    </linearGradient>
+    <linearGradient id="titleGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="55%" stop-color="#dbe6ff"/>
+      <stop offset="100%" stop-color="#7dd3fc"/>
+    </linearGradient>
+    <linearGradient id="barGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#22d3ee"/>
+      <stop offset="50%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#ec4899"/>
+    </linearGradient>
+    <linearGradient id="shimmer" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#ffffff" stop-opacity=".5"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="cyan" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#22d3ee" stop-opacity=".55"/>
+      <stop offset="100%" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="violet" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#8b5cf6" stop-opacity=".55"/>
+      <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="pink" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ec4899" stop-opacity=".42"/>
+      <stop offset="100%" stop-color="#ec4899" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="44" height="44" patternUnits="userSpaceOnUse">
+      <path d="M44 0H0V44" fill="none" stroke="#ffffff" stroke-opacity=".035"/>
+    </pattern>
+    <filter id="softblur" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="30"/>
+    </filter>
+    <filter id="glow" x="-200%" y="-200%" width="500%" height="500%">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="880" height="932" fill="url(#bg)"/>
+  <rect width="880" height="932" fill="url(#grid)"/>
+
+  <g filter="url(#softblur)">
+    <circle cx="120" cy="90" r="170" fill="url(#cyan)" opacity=".7">
+      <animate attributeName="cx" values="90;180;90" dur="13s" repeatCount="indefinite"/>
+      <animate attributeName="cy" values="60;120;60" dur="11s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="760" cy="70" r="190" fill="url(#violet)" opacity=".75">
+      <animate attributeName="cx" values="790;690;790" dur="12s" repeatCount="indefinite"/>
+      <animate attributeName="cy" values="55;110;55" dur="14s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="500" cy="872" r="180" fill="url(#pink)" opacity=".6">
+      <animate attributeName="cx" values="430;570;430" dur="16s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <rect x="-220" y="0" width="170" height="932" fill="url(#shimmer)" opacity=".14" transform="skewX(-18)">
+    <animate attributeName="x" values="-220;1080;-220" dur="12s" repeatCount="indefinite"/>
+  </rect>
+
+  <g>
+    <rect x="40" y="34" width="800" height="104" rx="24" fill="url(#glass)" stroke="url(#stroke)"/>
+    <rect x="64" y="58" width="28" height="3" rx="1.5" fill="url(#barGrad)"/>
+    <text x="64" y="82" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="11" font-weight="700" letter-spacing="3" fill="#7dd3fc">NOW SHIPPING</text>
+    <text x="64" y="112" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="27" font-weight="800" fill="url(#titleGrad)">dev-agent-skills</text>
+    <text x="64" y="132" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="12.5" fill="#a9b8d6">Reusable agent skills with MCP server, public eval scorecard, lockfile in...</text>
+    <rect x="744" y="58" width="72" height="26" rx="13" fill="#7dffbe" fill-opacity=".12" stroke="#7dffbe" stroke-opacity=".5"/>
+    <circle cx="758" cy="71" r="4" fill="#7dffbe" filter="url(#glow)">
+      <animate attributeName="opacity" values="1;.35;1" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <text x="770" y="75" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="10" font-weight="700" letter-spacing="1.5" fill="#bff7d8">LIVE</text>
+    <text x="816" y="132" text-anchor="end" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="10.5" letter-spacing="1" fill="#6f81a5">26-11-24</text>
+  </g>
+
+  
+    <g>
+      <rect x="40" y="154" width="194" height="88" rx="20" fill="url(#glass)" stroke="url(#stroke)"/>
+      <rect x="58" y="170" width="26" height="3" rx="1.5" fill="#22d3ee"/>
+      <text x="58" y="194" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="11" font-weight="700" letter-spacing="2.5" fill="#8fa2c6">REPOSITORIES</text>
+      <text x="58" y="226" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="30" font-weight="800" fill="url(#titleGrad)">7</text>
+    </g>
+  
+    <g>
+      <rect x="242" y="154" width="194" height="88" rx="20" fill="url(#glass)" stroke="url(#stroke)"/>
+      <rect x="260" y="170" width="26" height="3" rx="1.5" fill="#8b5cf6"/>
+      <text x="260" y="194" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="11" font-weight="700" letter-spacing="2.5" fill="#8fa2c6">STARS EARNED</text>
+      <text x="260" y="226" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="30" font-weight="800" fill="url(#titleGrad)">0</text>
+    </g>
+  
+    <g>
+      <rect x="444" y="154" width="194" height="88" rx="20" fill="url(#glass)" stroke="url(#stroke)"/>
+      <rect x="462" y="170" width="26" height="3" rx="1.5" fill="#ec4899"/>
+      <text x="462" y="194" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="11" font-weight="700" letter-spacing="2.5" fill="#8fa2c6">FOLLOWERS</text>
+      <text x="462" y="226" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="30" font-weight="800" fill="url(#titleGrad)">1</text>
+    </g>
+  
+    <g>
+      <rect x="646" y="154" width="194" height="88" rx="20" fill="url(#glass)" stroke="url(#stroke)"/>
+      <rect x="664" y="170" width="26" height="3" rx="1.5" fill="#3b82f6"/>
+      <text x="664" y="194" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="11" font-weight="700" letter-spacing="2.5" fill="#8fa2c6">ON GITHUB SINCE</text>
+      <text x="664" y="226" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="30" font-weight="800" fill="url(#titleGrad)">2023</text>
+    </g>
+
+  
+    <g>
+      <rect x="40" y="274" width="4" height="18" rx="2" fill="url(#barGrad)"/>
+      <text x="56" y="289" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="12" font-weight="700" letter-spacing="3" fill="#dbe6ff">01 / SELECTED WORK</text>
+      <line x1="56" y1="301" x2="840" y2="301" stroke="#ffffff" stroke-opacity=".07"/>
+    </g>
+  
+    <g>
+      <rect x="40" y="308" width="394" height="66" rx="18" fill="url(#glass)" stroke="url(#stroke)"/>
+      <circle cx="62" cy="333" r="5" fill="#f7df1e"/>
+      <text x="76" y="337" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#ffffff">dev-agent-skills</text>
+      <text x="414" y="337" text-anchor="end" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="11" font-weight="700" letter-spacing="1" fill="#8fa2c6">* 0</text>
+      <text x="62" y="358" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="12" fill="#a9b8d6">Reusable agent skills with MCP server, pu...</text>
+      <text x="414" y="358" text-anchor="end" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="10" letter-spacing="1" fill="#6f81a5">26-11-24</text>
+    </g>
+    <g>
+      <rect x="446" y="308" width="394" height="66" rx="18" fill="url(#glass)" stroke="url(#stroke)"/>
+      <circle cx="468" cy="333" r="5" fill="#8b949e"/>
+      <text x="482" y="337" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#ffffff">myspoti</text>
+      <text x="820" y="337" text-anchor="end" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="11" font-weight="700" letter-spacing="1" fill="#8fa2c6">* 0</text>
+      <text x="468" y="358" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="12" fill="#a9b8d6">Native Android client for Spotify, built...</text>
+      <text x="820" y="358" text-anchor="end" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="10" letter-spacing="1" fill="#6f81a5">26-11-02</text>
+    </g>
+    <g>
+      <rect x="40" y="384" width="394" height="66" rx="18" fill="url(#glass)" stroke="url(#stroke)"/>
+      <circle cx="62" cy="409" r="5" fill="#8b949e"/>
+      <text x="76" y="413" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#ffffff">Movie-website</text>
+      <text x="414" y="413" text-anchor="end" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="11" font-weight="700" letter-spacing="1" fill="#8fa2c6">* 0</text>
+      <text x="62" y="434" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="12" fill="#a9b8d6">Open source project</text>
+      <text x="414" y="434" text-anchor="end" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="10" letter-spacing="1" fill="#6f81a5">26-09-04</text>
+    </g>
+    <g>
+      <rect x="446" y="384" width="394" height="66" rx="18" fill="url(#glass)" stroke="url(#stroke)"/>
+      <circle cx="468" cy="409" r="5" fill="#8b949e"/>
+      <text x="482" y="413" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#ffffff">AutoFilterrrr</text>
+      <text x="820" y="413" text-anchor="end" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="11" font-weight="700" letter-spacing="1" fill="#8fa2c6">* 0</text>
+      <text x="468" y="434" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="12" fill="#a9b8d6">s bot + s s s s. s s , , , s , ,</text>
+      <text x="820" y="434" text-anchor="end" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="10" letter-spacing="1" fill="#6f81a5">25-05-24</text>
+    </g>
+    <g>
+      <rect x="40" y="460" width="394" height="66" rx="18" fill="url(#glass)" stroke="url(#stroke)"/>
+      <circle cx="62" cy="485" r="5" fill="#3776ab"/>
+      <text x="76" y="489" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#ffffff">DQ-Tom-</text>
+      <text x="414" y="489" text-anchor="end" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="11" font-weight="700" letter-spacing="1" fill="#8fa2c6">* 0</text>
+      <text x="62" y="510" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="12" fill="#a9b8d6">Open source project</text>
+      <text x="414" y="510" text-anchor="end" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="10" letter-spacing="1" fill="#6f81a5">23-11-22</text>
+    </g>
+
+  
+    <g>
+      <rect x="40" y="556" width="4" height="18" rx="2" fill="url(#barGrad)"/>
+      <text x="56" y="571" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="12" font-weight="700" letter-spacing="3" fill="#dbe6ff">02 / TOOLKIT</text>
+      <line x1="56" y1="583" x2="840" y2="583" stroke="#ffffff" stroke-opacity=".07"/>
+    </g>
+  
+      <g>
+        <rect x="40" y="590" width="90" height="30" rx="15" fill="#a97bff" fill-opacity=".14" stroke="#a97bff" stroke-opacity=".55"/>
+        <circle cx="56" cy="605" r="4" fill="#a97bff"/>
+        <text x="68" y="609" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="11" font-weight="700" letter-spacing="1.5" fill="#e6edf7">KOTLIN</text>
+      </g>
+      <g>
+        <rect x="140" y="590" width="90" height="30" rx="15" fill="#3776ab" fill-opacity=".14" stroke="#3776ab" stroke-opacity=".55"/>
+        <circle cx="156" cy="605" r="4" fill="#3776ab"/>
+        <text x="168" y="609" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="11" font-weight="700" letter-spacing="1.5" fill="#e6edf7">PYTHON</text>
+      </g>
+      <g>
+        <rect x="240" y="590" width="126" height="30" rx="15" fill="#f7df1e" fill-opacity=".14" stroke="#f7df1e" stroke-opacity=".55"/>
+        <circle cx="256" cy="605" r="4" fill="#f7df1e"/>
+        <text x="268" y="609" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="11" font-weight="700" letter-spacing="1.5" fill="#e6edf7">JAVASCRIPT</text>
+      </g>
+      <g>
+        <rect x="376" y="590" width="88" height="30" rx="15" fill="#e34f26" fill-opacity=".14" stroke="#e34f26" stroke-opacity=".55"/>
+        <circle cx="392" cy="605" r="4" fill="#e34f26"/>
+        <text x="404" y="609" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="11" font-weight="700" letter-spacing="1.5" fill="#e6edf7">HTML</text>
+      </g>
+      <g>
+        <rect x="474" y="590" width="88" height="30" rx="15" fill="#89e051" fill-opacity=".14" stroke="#89e051" stroke-opacity=".55"/>
+        <circle cx="490" cy="605" r="4" fill="#89e051"/>
+        <text x="502" y="609" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="11" font-weight="700" letter-spacing="1.5" fill="#e6edf7">SHELL</text>
+      </g>
+
+  
+    <g>
+      <rect x="40" y="650" width="4" height="18" rx="2" fill="url(#barGrad)"/>
+      <text x="56" y="665" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="12" font-weight="700" letter-spacing="3" fill="#dbe6ff">03 / SIGNAL</text>
+      <line x1="56" y1="677" x2="840" y2="677" stroke="#ffffff" stroke-opacity=".07"/>
+    </g>
+  <line x1="50" y1="690" x2="50" y2="746" stroke="#ffffff" stroke-opacity=".10"/>
+  
+        <g>
+          <circle cx="50" cy="690" r="4" fill="#22d3ee" filter="url(#glow)">
+            <animate attributeName="opacity" values="1;.45;1" dur="2.4s" repeatCount="indefinite"/>
+          </circle>
+          <text x="70" y="694" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="12.5" fill="#b9c6df">Forked Orpheon on 2026-11-02</text>
+        </g>
+        <g>
+          <circle cx="50" cy="718" r="4" fill="#8b5cf6" filter="url(#glow)">
+            <animate attributeName="opacity" values="1;.45;1" dur="2.9s" repeatCount="indefinite"/>
+          </circle>
+          <text x="70" y="722" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="12.5" fill="#b9c6df">Starred Orpheon on 2026-11-02</text>
+        </g>
+        <g>
+          <circle cx="50" cy="746" r="4" fill="#ec4899" filter="url(#glow)">
+            <animate attributeName="opacity" values="1;.45;1" dur="3.4s" repeatCount="indefinite"/>
+          </circle>
+          <text x="70" y="750" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="12.5" fill="#b9c6df">Pushed 1 commit to SURI-AUTO-FILTER (x14) on 2026-10-29</text>
+        </g>
+
+  
+    <g>
+      <rect x="40" y="796" width="4" height="18" rx="2" fill="url(#barGrad)"/>
+      <text x="56" y="811" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="12" font-weight="700" letter-spacing="3" fill="#dbe6ff">04 / CONNECT</text>
+      <line x1="56" y1="823" x2="840" y2="823" stroke="#ffffff" stroke-opacity=".07"/>
+    </g>
+  
+      <g>
+        <rect x="111" y="830" width="210" height="44" rx="22" fill="##2f81f7" fill-opacity=".13" stroke="##2f81f7" stroke-opacity=".6"/>
+        <circle cx="135" cy="852" r="5" fill="##2f81f7" filter="url(#glow)"/>
+        <text x="151" y="857" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="12" font-weight="700" letter-spacing="2.5" fill="#eaf1ff">PROFILE</text>
+      </g>
+      <g>
+        <rect x="335" y="830" width="210" height="44" rx="22" fill="##8b5cf6" fill-opacity=".13" stroke="##8b5cf6" stroke-opacity=".6"/>
+        <circle cx="359" cy="852" r="5" fill="##8b5cf6" filter="url(#glow)"/>
+        <text x="375" y="857" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="12" font-weight="700" letter-spacing="2.5" fill="#eaf1ff">PLAYGROUND</text>
+      </g>
+      <g>
+        <rect x="559" y="830" width="210" height="44" rx="22" fill="##22d3ee" fill-opacity=".13" stroke="##22d3ee" stroke-opacity=".6"/>
+        <circle cx="583" cy="852" r="5" fill="##22d3ee" filter="url(#glow)"/>
+        <text x="599" y="857" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="12" font-weight="700" letter-spacing="2.5" fill="#eaf1ff">ISSUES</text>
+      </g>
+
+  <text x="440" y="904" text-anchor="middle" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="10" letter-spacing="2" fill="#5f718f">AUTO-SYNCED FROM GITHUB API  /  LAST BUILD 2026-11-24</text>
+</svg>

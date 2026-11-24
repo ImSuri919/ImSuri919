@@ -5,6 +5,11 @@
       <stop offset="55%" stop-color="#0b1224"/>
       <stop offset="100%" stop-color="#070b14"/>
     </linearGradient>
+    <linearGradient id="titleGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="60%" stop-color="#dbe6ff"/>
+      <stop offset="100%" stop-color="#7dd3fc"/>
+    </linearGradient>
     <radialGradient id="cyan" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="#22d3ee" stop-opacity=".95"/>
       <stop offset="100%" stop-color="#22d3ee" stop-opacity="0"/>
@@ -97,8 +102,9 @@
   <circle cx="130" cy="130" r="33" fill="none" stroke="#ffffff" stroke-opacity=".2" stroke-width="1"/>
   <text x="130" y="143" text-anchor="middle" font-family="Roboto, Arial, sans-serif" font-size="40" font-weight="700" fill="#ffffff">S</text>
 
-  <text x="196" y="122" font-family="Roboto, Arial, sans-serif" font-size="56" font-weight="800" letter-spacing="1" fill="#ffffff">SURI</text>
-  <text x="199" y="158" font-family="Roboto, Arial, sans-serif" font-size="17" letter-spacing="2" fill="#dbe6ff">@ImSuri919  ·  DEVELOPER TOOLS</text>
+  <text x="196" y="122" font-family="Roboto, Arial, sans-serif" font-size="56" font-weight="800" letter-spacing="1" fill="url(#titleGrad)">SURI</text>
+  <text x="352" y="122" font-family="Roboto, Arial, sans-serif" font-size="24" font-weight="700" letter-spacing="1" fill="#7dd3fc">//919</text>
+  <text x="199" y="158" font-family="Roboto, Arial, sans-serif" font-size="16" letter-spacing="2.5" fill="#dbe6ff">@ImSuri919  //  BUILDING IN PUBLIC</text>
 
   <circle cx="790" cy="102" r="12" fill="#7dffbe" opacity=".15">
     <animate attributeName="r" values="9;15;9" dur="2.4s" repeatCount="indefinite"/>
@@ -106,5 +112,5 @@
   </circle>
   <circle cx="790" cy="102" r="5" fill="#7dffbe"/>
 
-  <text x="205" y="240" font-family="Roboto, Arial, sans-serif" font-size="13" letter-spacing="3" fill="#9fb0d0">DEVTOOLS   /   ANDROID   /   AGENT SKILLS</text>
+  <text x="205" y="240" font-family="Roboto, Arial, sans-serif" font-size="12.5" letter-spacing="3.2" fill="#9fb0d0">DEVTOOLS  /  ANDROID  /  AGENT SKILLS  /  OPEN SOURCE</text>
 </svg>

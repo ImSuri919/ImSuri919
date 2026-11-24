@@ -1,4 +1,4 @@
-import { writeFile } from "node:fs/promises";
+import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -20,23 +20,42 @@ async function api(endpoint) {
 }
 
 const LANGUAGE_STYLE = {
-  JavaScript: ["f7df1e", "javascript", "black"],
-  TypeScript: ["3178c6", "typescript", "white"],
-  Kotlin: ["a97bff", "kotlin", "white"],
-  Python: ["3776ab", "python", "white"],
-  HTML: ["e34f26", "html5", "white"],
-  CSS: ["1572b6", "css3", "white"],
-  Java: ["007396", "openjdk", "white"],
-  Dart: ["0175c2", "dart", "white"],
-  Shell: ["89e051", "gnubash", "black"],
+  JavaScript: ["f7df1e", "black"],
+  TypeScript: ["3178c6", "white"],
+  Kotlin: ["a97bff", "white"],
+  Python: ["3776ab", "white"],
+  HTML: ["e34f26", "white"],
+  CSS: ["1572b6", "white"],
+  Java: ["007396", "white"],
+  Dart: ["0175c2", "white"],
+  Shell: ["89e051", "black"],
 };
 
-function cell(text) {
-  return String(text || "—").replace(/\|/g, "\\|").replace(/\s+/g, " ").trim();
+function esc(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+}
+
+function clean(value, max = 80) {
+  let text = String(value ?? "")
+    .normalize("NFKD")
+    .replace(/[^\x20-\x7E]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (text.length > max) text = `${text.slice(0, max - 3).trimEnd()}...`;
+  return text;
 }
 
 function day(iso) {
   return iso ? iso.slice(0, 10) : "unknown";
+}
+
+function shortDay(iso) {
+  return iso ? iso.slice(2, 10) : "unknown";
 }
 
 function describeActivity(events) {
@@ -70,7 +89,7 @@ function describeActivity(events) {
   return [...groups.values()]
     .sort((a, b) => (a.date < b.date ? 1 : -1))
     .slice(0, 6)
-    .map((item) => `- ${item.text}${item.count > 1 ? ` (x${item.count})` : ""} on ${day(item.date)}`);
+    .map((item) => `${item.text}${item.count > 1 ? ` (x${item.count})` : ""} on ${day(item.date)}`);
 }
 
 const [user, repos, events] = await Promise.all([
@@ -105,86 +124,254 @@ const activity = describeActivity(events);
 const current = featured[0];
 const generated = new Date().toISOString().slice(0, 10);
 
+function sectionTitle(y, index, label) {
+  return `
+    <g>
+      <rect x="40" y="${y}" width="4" height="18" rx="2" fill="url(#barGrad)"/>
+      <text x="56" y="${y + 15}" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="12" font-weight="700" letter-spacing="3" fill="#dbe6ff">${index} / ${esc(label)}</text>
+      <line x1="56" y1="${y + 27}" x2="840" y2="${y + 27}" stroke="#ffffff" stroke-opacity=".07"/>
+    </g>`;
+}
+
+function statCard(x, label, value, accent) {
+  return `
+    <g>
+      <rect x="${x}" y="154" width="194" height="88" rx="20" fill="url(#glass)" stroke="url(#stroke)"/>
+      <rect x="${x + 18}" y="170" width="26" height="3" rx="1.5" fill="${accent}"/>
+      <text x="${x + 18}" y="194" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="11" font-weight="700" letter-spacing="2.5" fill="#8fa2c6">${esc(label)}</text>
+      <text x="${x + 18}" y="226" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="30" font-weight="800" fill="url(#titleGrad)">${esc(value)}</text>
+    </g>`;
+}
+
+function repoCard(x, y, repo) {
+  const language = repo.language || "CODE";
+  const color = LANGUAGE_STYLE[language]?.[0] || "8b949e";
+  const name = clean(repo.name, 24);
+  const description = clean(repo.description || "Open source project", 44);
+  return `
+    <g>
+      <rect x="${x}" y="${y}" width="394" height="66" rx="18" fill="url(#glass)" stroke="url(#stroke)"/>
+      <circle cx="${x + 22}" cy="${y + 25}" r="5" fill="#${color}"/>
+      <text x="${x + 36}" y="${y + 29}" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#ffffff">${esc(name)}</text>
+      <text x="${x + 374}" y="${y + 29}" text-anchor="end" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="11" font-weight="700" letter-spacing="1" fill="#8fa2c6">* ${repo.stargazers_count || 0}</text>
+      <text x="${x + 22}" y="${y + 50}" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="12" fill="#a9b8d6">${esc(description)}</text>
+      <text x="${x + 374}" y="${y + 50}" text-anchor="end" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="10" letter-spacing="1" fill="#6f81a5">${shortDay(repo.pushed_at)}</text>
+    </g>`;
+}
+
+function languagePills(startY) {
+  let x = 40;
+  let y = startY;
+  let endY = startY;
+  const parts = [];
+
+  for (const [language] of languages) {
+    const color = LANGUAGE_STYLE[language][0];
+    const label = clean(language.toUpperCase(), 16);
+    const width = Math.max(88, 36 + label.length * 9);
+    if (x + width > 840) {
+      x = 40;
+      y += 42;
+    }
+    parts.push(`
+      <g>
+        <rect x="${x}" y="${y}" width="${width}" height="30" rx="15" fill="#${color}" fill-opacity=".14" stroke="#${color}" stroke-opacity=".55"/>
+        <circle cx="${x + 16}" cy="${y + 15}" r="4" fill="#${color}"/>
+        <text x="${x + 28}" y="${y + 19}" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="11" font-weight="700" letter-spacing="1.5" fill="#e6edf7">${esc(label)}</text>
+      </g>`);
+    endY = Math.max(endY, y + 30);
+    x += width + 10;
+  }
+
+  if (!parts.length) {
+    parts.push(`<text x="40" y="${startY + 18}" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="13" fill="#8fa2c6">Language data is not available yet.</text>`);
+    endY = startY + 30;
+  }
+  return { svg: parts.join(""), endY };
+}
+
+const workTitleY = 274;
+const workStartY = 308;
+const workRows = Math.max(1, Math.ceil(featured.length / 2));
+const workEndY = workStartY + workRows * 66 + (workRows - 1) * 10;
+const toolkitTitleY = workEndY + 30;
+const toolkit = languagePills(toolkitTitleY + 34);
+const signalTitleY = toolkit.endY + 30;
+const signalStartY = signalTitleY + 34;
+const activityRows = Math.max(1, Math.min(3, activity.length));
+const signalEndY = signalStartY + activityRows * 28;
+const connectTitleY = signalEndY + 28;
+const connectY = connectTitleY + 34;
+const connectH = 44;
+const height = connectY + connectH + 58;
+
+const workSvg = featured.length
+  ? featured
+      .map((repo, index) => repoCard(index % 2 === 0 ? 40 : 446, workStartY + Math.floor(index / 2) * 76, repo))
+      .join("")
+  : `<text x="40" y="${workStartY + 24}" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="13" fill="#8fa2c6">No public repositories yet.</text>`;
+
+const activitySvg = activity.length
+  ? activity
+      .slice(0, 3)
+      .map((item, index) => {
+        const y = signalStartY + index * 28;
+        const color = index === 0 ? "#22d3ee" : index === 1 ? "#8b5cf6" : "#ec4899";
+        return `
+        <g>
+          <circle cx="50" cy="${y + 6}" r="4" fill="${color}" filter="url(#glow)">
+            <animate attributeName="opacity" values="1;.45;1" dur="${2.4 + index * 0.5}s" repeatCount="indefinite"/>
+          </circle>
+          <text x="70" y="${y + 10}" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="12.5" fill="#b9c6df">${esc(clean(item, 88))}</text>
+        </g>`;
+      })
+      .join("")
+  : `<text x="70" y="${signalStartY + 10}" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="12.5" fill="#8fa2c6">No public events yet.</text>`;
+
+const connectLabels = ["PROFILE", "PLAYGROUND", "ISSUES"];
+const connectColors = ["#2f81f7", "#8b5cf6", "#22d3ee"];
+const connectSvg = connectLabels
+  .map((label, index) => {
+    const x = 111 + index * 224;
+    return `
+      <g>
+        <rect x="${x}" y="${connectY}" width="210" height="${connectH}" rx="22" fill="#${connectColors[index]}" fill-opacity=".13" stroke="#${connectColors[index]}" stroke-opacity=".6"/>
+        <circle cx="${x + 24}" cy="${connectY + 22}" r="5" fill="#${connectColors[index]}" filter="url(#glow)"/>
+        <text x="${x + 40}" y="${connectY + 27}" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="12" font-weight="700" letter-spacing="2.5" fill="#eaf1ff">${label}</text>
+      </g>`;
+  })
+  .join("");
+
+const dashboard = `<svg xmlns="http://www.w3.org/2000/svg" width="880" height="${height}" viewBox="0 0 880 ${height}" role="img" aria-label="Auto generated GitHub profile dashboard">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#080d18"/>
+      <stop offset="55%" stop-color="#0b1224"/>
+      <stop offset="100%" stop-color="#070b14"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity=".13"/>
+      <stop offset="50%" stop-color="#ffffff" stop-opacity=".045"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity=".10"/>
+    </linearGradient>
+    <linearGradient id="stroke" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity=".55"/>
+      <stop offset="45%" stop-color="#ffffff" stop-opacity=".10"/>
+      <stop offset="100%" stop-color="#7dd3fc" stop-opacity=".40"/>
+    </linearGradient>
+    <linearGradient id="titleGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="55%" stop-color="#dbe6ff"/>
+      <stop offset="100%" stop-color="#7dd3fc"/>
+    </linearGradient>
+    <linearGradient id="barGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#22d3ee"/>
+      <stop offset="50%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#ec4899"/>
+    </linearGradient>
+    <linearGradient id="shimmer" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#ffffff" stop-opacity=".5"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="cyan" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#22d3ee" stop-opacity=".55"/>
+      <stop offset="100%" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="violet" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#8b5cf6" stop-opacity=".55"/>
+      <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="pink" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ec4899" stop-opacity=".42"/>
+      <stop offset="100%" stop-color="#ec4899" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="44" height="44" patternUnits="userSpaceOnUse">
+      <path d="M44 0H0V44" fill="none" stroke="#ffffff" stroke-opacity=".035"/>
+    </pattern>
+    <filter id="softblur" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="30"/>
+    </filter>
+    <filter id="glow" x="-200%" y="-200%" width="500%" height="500%">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="880" height="${height}" fill="url(#bg)"/>
+  <rect width="880" height="${height}" fill="url(#grid)"/>
+
+  <g filter="url(#softblur)">
+    <circle cx="120" cy="90" r="170" fill="url(#cyan)" opacity=".7">
+      <animate attributeName="cx" values="90;180;90" dur="13s" repeatCount="indefinite"/>
+      <animate attributeName="cy" values="60;120;60" dur="11s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="760" cy="70" r="190" fill="url(#violet)" opacity=".75">
+      <animate attributeName="cx" values="790;690;790" dur="12s" repeatCount="indefinite"/>
+      <animate attributeName="cy" values="55;110;55" dur="14s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="500" cy="${height - 60}" r="180" fill="url(#pink)" opacity=".6">
+      <animate attributeName="cx" values="430;570;430" dur="16s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <rect x="-220" y="0" width="170" height="${height}" fill="url(#shimmer)" opacity=".14" transform="skewX(-18)">
+    <animate attributeName="x" values="-220;1080;-220" dur="12s" repeatCount="indefinite"/>
+  </rect>
+
+  <g>
+    <rect x="40" y="34" width="800" height="104" rx="24" fill="url(#glass)" stroke="url(#stroke)"/>
+    <rect x="64" y="58" width="28" height="3" rx="1.5" fill="url(#barGrad)"/>
+    <text x="64" y="82" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="11" font-weight="700" letter-spacing="3" fill="#7dd3fc">NOW SHIPPING</text>
+    <text x="64" y="112" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="27" font-weight="800" fill="url(#titleGrad)">${esc(clean(current?.name || "Open source work", 28))}</text>
+    <text x="64" y="132" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="12.5" fill="#a9b8d6">${esc(clean(current?.description || "Building useful things in public.", 76))}</text>
+    <rect x="744" y="58" width="72" height="26" rx="13" fill="#7dffbe" fill-opacity=".12" stroke="#7dffbe" stroke-opacity=".5"/>
+    <circle cx="758" cy="71" r="4" fill="#7dffbe" filter="url(#glow)">
+      <animate attributeName="opacity" values="1;.35;1" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <text x="770" y="75" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="10" font-weight="700" letter-spacing="1.5" fill="#bff7d8">LIVE</text>
+    <text x="816" y="132" text-anchor="end" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="10.5" letter-spacing="1" fill="#6f81a5">${shortDay(current?.pushed_at)}</text>
+  </g>
+
+  ${statCard(40, "REPOSITORIES", publicRepos.length, "#22d3ee")}
+  ${statCard(242, "STARS EARNED", totalStars, "#8b5cf6")}
+  ${statCard(444, "FOLLOWERS", user.followers, "#ec4899")}
+  ${statCard(646, "ON GITHUB SINCE", user.created_at.slice(0, 4), "#3b82f6")}
+
+  ${sectionTitle(workTitleY, "01", "SELECTED WORK")}
+  ${workSvg}
+
+  ${sectionTitle(toolkitTitleY, "02", "TOOLKIT")}
+  ${toolkit.svg}
+
+  ${sectionTitle(signalTitleY, "03", "SIGNAL")}
+  <line x1="50" y1="${signalStartY + 6}" x2="50" y2="${signalStartY + (activityRows - 1) * 28 + 6}" stroke="#ffffff" stroke-opacity=".10"/>
+  ${activitySvg}
+
+  ${sectionTitle(connectTitleY, "04", "CONNECT")}
+  ${connectSvg}
+
+  <text x="440" y="${height - 28}" text-anchor="middle" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="10" letter-spacing="2" fill="#5f718f">AUTO-SYNCED FROM GITHUB API  /  LAST BUILD ${generated}</text>
+</svg>
+`;
+
 const raw = `https://raw.githubusercontent.com/${LOGIN}/${LOGIN}/main/assets`;
-const divider = `<div align="center"><img src="${raw}/neon-divider.svg" width="880" alt=""></div>`;
-
-const lines = [
+const readme = [
   `<div align="center">`,
   ``,
-  `<a href="https://github.com/${LOGIN}"><img src="${raw}/profile-banner.svg" width="880" alt="${user.name || user.login} animated banner"></a>`,
-  ``,
-  `# ${user.name || user.login}`,
-  ``,
-  `#### @${user.login} · building things for developers`,
-  ``,
-  `[![Followers](https://img.shields.io/github/followers/${LOGIN}?style=for-the-badge&logo=github&color=2f81f7)](https://github.com/${LOGIN}?tab=followers)`,
-  `[![Repositories](https://img.shields.io/github/repos/${LOGIN}?style=for-the-badge&logo=github&color=238636)](https://github.com/${LOGIN}?tab=repositories)`,
-  `[![Stars earned](https://img.shields.io/github/stars/${LOGIN}?style=for-the-badge&logo=github&color=d29936)](https://github.com/${LOGIN}?tab=repositories)`,
-  ``,
-  `Developer tools, Android apps and AI agent workflows. I turn repeated work into reusable open-source tools.`,
+  `<a href="https://github.com/${LOGIN}"><img src="${raw}/profile-banner.svg" width="880" alt="${esc(user.name || user.login)} animated banner"></a>`,
   ``,
   `</div>`,
   ``,
-  divider,
-  ``,
-  `## Currently building`,
-  ``,
-  current
-    ? `**[${current.name}](${current.html_url})** — ${cell(current.description || "No description yet.")} Updated on ${day(current.pushed_at)}.`
-    : "Nothing pushed yet.",
-  ``,
-  `## At a glance`,
-  ``,
-  `| | |`,
-  `| --- | --- |`,
-  `| Public repositories | ${publicRepos.length} |`,
-  `| Stars across repositories | ${totalStars} |`,
-  `| Followers | ${user.followers} |`,
-  `| Following | ${user.following} |`,
-  `| GitHub since | ${day(user.created_at)} |`,
-  ``,
-  `## Featured repositories`,
-  ``,
-  `| Repository | Description | Language | Stars | Last push |`,
-  `| --- | --- | --- | --- | --- |`,
-  ...featured.map(
-    (repo) =>
-      `| [${repo.name}](${repo.html_url}) | ${cell(repo.description)} | ${repo.language || "various"} | ${repo.stargazers_count || 0} | ${day(repo.pushed_at)} |`,
-  ),
-  ``,
-  `## Languages in recent work`,
-  ``,
-  languages.length
-    ? languages
-        .map(([language]) => {
-          const style = LANGUAGE_STYLE[language] || ["8b949e", "github", "white"];
-          return `![${language}](https://img.shields.io/badge/${encodeURIComponent(language)}-${style[0]}?style=for-the-badge&logo=${style[1]}&logoColor=${style[2]})`;
-        })
-        .join(" ")
-    : "Language data is not available yet.",
-  ``,
-  `## Recent public activity`,
-  ``,
-  ...(activity.length ? activity : ["No public events yet."]),
-  ``,
-  `Public events can be delayed by GitHub. This section is rebuilt every day.`,
-  ``,
-  `## Find me`,
-  ``,
-  `- GitHub: [@${LOGIN}](https://github.com/${LOGIN})`,
-  `- Agent skills playground: [dev-agent-skills](https://imsuri919.github.io/dev-agent-skills/)`,
-  `- Ideas and bug reports: [open an issue](https://github.com/ImSuri919/dev-agent-skills/issues/new/choose)`,
-  ``,
-  divider,
-  ``,
   `<div align="center">`,
   ``,
-  `This profile README is generated from the GitHub API by \`scripts/generate-profile.mjs\` and refreshed daily. Last generated ${generated}.`,
+  `<a href="https://github.com/${LOGIN}?tab=repositories"><img src="${raw}/profile-dashboard.svg" width="880" alt="${esc(user.name || user.login)} profile dashboard"></a>`,
   ``,
   `</div>`,
   ``,
-];
+].join("\n");
 
-const target = path.join(root, "README.md");
-await writeFile(target, lines.join("\n"), "utf8");
-console.log(`Wrote README.md with ${featured.length} repos and ${activity.length} activity lines`);
+await mkdir(path.join(root, "assets"), { recursive: true });
+await writeFile(path.join(root, "assets", "profile-dashboard.svg"), dashboard, "utf8");
+await writeFile(path.join(root, "README.md"), readme, "utf8");
+console.log(`Wrote dashboard (${height}px) and README with ${featured.length} repos and ${activity.length} activity lines`);
