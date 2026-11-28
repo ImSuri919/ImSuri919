@@ -113,7 +113,7 @@
       <rect x="444" y="154" width="194" height="88" rx="20" fill="url(#glass)" stroke="url(#stroke)"/>
       <rect x="462" y="170" width="26" height="3" rx="1.5" fill="#ec4899"/>
       <text x="462" y="194" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="11" font-weight="700" letter-spacing="2.5" fill="#8fa2c6">FOLLOWERS</text>
-      <text x="462" y="226" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="30" font-weight="800" fill="url(#titleGrad)">2</text>
+      <text x="462" y="226" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="30" font-weight="800" fill="url(#titleGrad)">3</text>
     </g>
   
     <g>
@@ -259,5 +259,5 @@
         <text x="599" y="857" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="12" font-weight="700" letter-spacing="2.5" fill="#eaf1ff">ISSUES</text>
       </g>
 
-  <text x="440" y="904" text-anchor="middle" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="10" letter-spacing="2" fill="#5f718f">RAJASTHAN, INDIA  /  AUTO-SYNCED FROM GITHUB API  /  LAST BUILD 2026-11-27</text>
+  <text x="440" y="904" text-anchor="middle" font-family="Roboto, Arial, Helvetica, sans-serif" font-size="10" letter-spacing="2" fill="#5f718f">RAJASTHAN, INDIA  /  AUTO-SYNCED FROM GITHUB API  /  LAST BUILD 2026-11-28</text>
 </svg>
